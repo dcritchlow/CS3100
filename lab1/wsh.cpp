@@ -21,6 +21,7 @@ wsh::wsh()
 
 	system("clear");
 	// LAB 1: initialize the cwd member variable here.
+//    char *cwd;
 }
 
 
@@ -30,9 +31,27 @@ int wsh::next_command()
 	// LAB 1: place assignment code here.
 	// Note that the program will not run until this part is completed.
 	// define a command buffer and a place for the current working directory string
+
+    static char cmd[PATH_MAX];
+    char *token;
+
+    getcwd(cwd, sizeof(cmd));
+    cout << cwd << "=> ";
+    cin.getline(cmd, PATH_MAX);
+    token = strtok(cmd, " \t");
+
+    while ( token != NULL)
+    {
+        printf( "%s\n", token);
+        token = strtok(NULL, " \t");
+    }
+    return 0;
 }
 
+void wsh::copy()
+{
 
+}
 
 void wsh::interpret()		// loops executing commands from the command line.
 {
