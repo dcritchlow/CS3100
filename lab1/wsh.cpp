@@ -22,6 +22,9 @@ wsh::wsh()
 	system("clear");
 	// LAB 1: initialize the cwd member variable here.
 //    char *cwd;
+//    getcwd(cwd, sizeof(cmd));
+//    cout << cwd << "=> ";
+
 }
 
 
@@ -39,12 +42,17 @@ int wsh::next_command()
     cout << cwd << "=> ";
     cin.getline(cmd, PATH_MAX);
     token = strtok(cmd, " \t");
+//    argv[0] = token;
 
-    while ( token != NULL)
+    for (int i = 1; token != NULL; i++)
     {
-        printf( "%s\n", token);
+        printf("%s\n",token);
         token = strtok(NULL, " \t");
+//        argv[i] = token;
+//        argc = 1 + i;
     }
+
+//    cout << cwd << "=> ";
     return 0;
 }
 
