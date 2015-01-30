@@ -21,9 +21,7 @@ wsh::wsh()
 
 	system("clear");
 	// LAB 1: initialize the cwd member variable here.
-//    char *cwd;
-//    getcwd(cwd, sizeof(cmd));
-//    cout << cwd << "=> ";
+    getcwd(cwd, sizeof(cwd));
 
 }
 
@@ -37,28 +35,56 @@ int wsh::next_command()
 
     static char cmd[PATH_MAX];
     char *token;
+    argc = 0;
 
-    getcwd(cwd, sizeof(cmd));
     cout << cwd << "=> ";
     cin.getline(cmd, PATH_MAX);
     token = strtok(cmd, " \t");
-//    argv[0] = token;
+    if (token == NULL)
+        return NONE;
 
-    for (int i = 1; token != NULL; i++)
+    while(token != NULL)
     {
-        printf("%s\n",token);
+        argv[argc++] = token;
         token = strtok(NULL, " \t");
-//        argv[i] = token;
-//        argc = 1 + i;
+
     }
 
-//    cout << cwd << "=> ";
+    if (strcmp(argv[0], "copy") == 0)
+        // returns -1 if str1 is bigger 0 if equal +1 if str2 is bigger
+        return COPY;
+    if (strcmp(argv[0], "exit") == 0)
+        // returns -1 if str1 is bigger 0 if equal +1 if str2 is bigger
+        return EXIT;
     return 0;
 }
 
 void wsh::copy()
 {
+//    printf("%s\n", "I am in copy");
 
+    char *fileNameAfterRightSlash = strrchr(argv[1], '/');
+    int copyToCurrentDirectory = strcmp(argv[2], ".");
+    if (copyToCurrentDirectory != 0 && strcmp(argv[1], argv[2]) != 0)
+    {
+        cout << "copy " << argv[1] << " " << argv[2] << endl;
+    }
+    else if (copyToCurrentDirectory == 0)
+    {
+        if (fileNameAfterRightSlash == NULL)
+        {
+            cout << "copy " << argv[1] << " " << cwd << "/" << argv[1] << endl;
+        }
+        else
+        {
+            cout << "copy " << fileNameAfterRightSlash << " " << cwd << fileNameAfterRightSlash << endl;
+        }
+    }
+    else
+    {
+        cout << "Invalid argument!";
+    }
+//    printf("%s\n", p);
 }
 
 void wsh::interpret()		// loops executing commands from the command line.
